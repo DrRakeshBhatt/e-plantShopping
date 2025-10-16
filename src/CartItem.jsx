@@ -5,7 +5,6 @@ import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
-  const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
   const dispatch = useDispatch();
 
   // Calculate total amount for all products in the cart
@@ -19,12 +18,6 @@ const CartItem = ({ onContinueShopping }) => {
     return total;
   };
 
-  const handleContinueShopping = (e) => {
-    e.preventDefault();
-    setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
-    setShowCart(false);
-  };
-
   const handleIncrement = (item) => {
     dispatch(updateQuantity({ name: item.name, quantity: item.quantity + 1 }));
   };
@@ -36,7 +29,6 @@ const CartItem = ({ onContinueShopping }) => {
     else{
      dispatch(removeItem(item.name));
     }
-    
   };
 
   const handleRemove = (item) => {
@@ -45,6 +37,7 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    let total = 0;
     total = parseFloat(item.cost.substring(1)) * item.quantity;
     return total;
   };
@@ -76,7 +69,7 @@ const CartItem = ({ onContinueShopping }) => {
       </div>
       <div style={{ marginTop: '20px', color: 'black' }} className='total_cart_amount'></div>
       <div className="continue_shopping_btn">
-        <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
+        <button className="get-started-button" onClick={(e) => onContinueShopping(e)}>Continue Shopping</button>
         <br />
         <button className="get-started-button1" onClick={(e) => handleCheckoutShopping(e)}>Checkout</button>
       </div>
